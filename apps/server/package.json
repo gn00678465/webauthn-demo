@@ -4,11 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "tsup --env.NODE_ENV development --format esm --watch --clean --onSuccess \"node dist/index.mjs\"",
+    "dev": "tsup --env.NODE_ENV development --format esm --watch --clean --onSuccess \"bun dist/index.mjs\"",
     "build": "tsup",
-    "prisma:generate": "npx prisma generate",
-    "prisma:push": "npx prisma db push",
-    "prisma:pull": "npx prisma db pull"
+    "prisma:generate": "bunx prisma generate",
+    "prisma:push": "bunx prisma db push",
+    "prisma:pull": "bunx prisma db pull"
   },
   "keywords": [
     "webauthn"

@@ -97,21 +97,30 @@ sequenceDiagram
 
 **Server Env**
 
-- PORT: server port
-- RP_ID: 必須符合當前部署的網域
-- RP_NAME: 必須符合當前部署的網域
-- SESSION_SECRET: for session use
-- DATABASE_URL: db 的路徑
-  - mongodb: **mongodb://USERNAME:PASSWORD@HOST:PORT/DATABASE**
+| 變數 | 說明 | 必填 |
+| :--- | :--- | :---: |
+| `PORT` | Server port | Yes |
+| `RP_ID` | 必須符合當前部署的網域 | Yes |
+| `RP_NAME` | 必須符合當前部署的網域 | Yes |
+| `SESSION_SECRET` | Session 加密金鑰 | Yes |
+| `DATABASE_URL` | MongoDB 連線字串 (`mongodb+srv://USER:PASS@HOST/DB`) | Yes |
+| `ANDROID_PACKAGE_NAME` | Android App package name | No |
+| `ANDROID_SHA256_FINGERPRINTS` | Android 簽章 SHA256 指紋（逗號分隔） | No |
+| `APPLE_APP_IDS` | iOS App ID，格式 `TEAMID.BUNDLEID`（逗號分隔） | No |
+| `RELATED_ORIGINS` | WebAuthn ROR 允許的跨網域來源（逗號分隔，含 `https://`） | No |
+| `PASSKEY_ENROLL_URL` | Passkey 註冊頁面 URL | No |
+| `PASSKEY_MANAGE_URL` | Passkey 管理頁面 URL | No |
+
+> `.well-known` 相關環境變數皆為選填，未設定時對應端點回傳 404。
 
 ```bash
-pnpm install
+bun install
 
-pnpm prisma:generate
+bun run prisma:generate
 
-pnpm prisma:push
+bun run prisma:push
 
-pnpm dev
+bun run dev
 ```
 
 ### Docker
@@ -123,6 +132,6 @@ pnpm dev
 3. webauthn service
    - 環境變數 **DATABASE_URL** 請填入對應的 mongodb path
 
-```
+```bash
 docker compose up -d
 ```

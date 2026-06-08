@@ -12,6 +12,7 @@ import authenticationRouter from "./routes/authentication";
 import passkeysRouter from "./routes/passkeys";
 import authRouter from "./routes/auth";
 import credentialRouter from "./routes/credential";
+import wellknownRouter from "./routes/wellknown";
 import { handleError } from "./middleware";
 
 dotenv.config();
@@ -45,6 +46,7 @@ app.use(
 );
 
 // router
+app.use("/.well-known", wellknownRouter);
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/webauthn", registrationRouter, authenticationRouter, passkeysRouter);
 app.use("/api/v1/credentials", credentialRouter);

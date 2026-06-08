@@ -6,17 +6,19 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "packageManager": "bun@1.3.11",
+  "workspaces": ["apps/*", "packages/*"],
+  "trustedDependencies": ["prisma", "@prisma/client", "esbuild"],
   "scripts": {
-    "@webauthn-browser": "pnpm --filter @webauthn/browser",
-    "@webauthn-server": "pnpm --filter @webauthn/server",
-    "@webauthn-types": "pnpm --filter @webauthn/types",
-    "passless-client": "pnpm --filter @passless-demo/client",
-    "passless-server": "pnpm --filter @passless-demo/server",
-    "prisma:generate": "pnpm --filter @passless-demo/server prisma:generate",
-    "prisma:push": "pnpm --filter @passless-demo/server prisma:push",
+    "dev:client": "bun --filter @passless-demo/client dev",
+    "dev:server": "bun --filter @passless-demo/server dev",
+    "build:client": "bun --filter @passless-demo/client build",
+    "build:server": "bun --filter @passless-demo/server build",
+    "prisma:generate": "bun --filter @passless-demo/server prisma:generate",
+    "prisma:push": "bun --filter @passless-demo/server prisma:push",
     "format": "prettier --write src/",
-    "dev": "run-p \"passless-client -- dev\" \"passless-server -- dev\" --",
-    "build": "run-p \"passless-client -- build\" \"passless-server -- build\" --"
+    "dev": "run-p dev:client dev:server",
+    "build": "run-p build:client build:server"
   },
   "devDependencies": {
     "npm-run-all2": "^6.1.2",

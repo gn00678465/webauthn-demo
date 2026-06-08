@@ -1,29 +1,25 @@
-ARG NODE_VERSION=20.10.0
-FROM node:${NODE_VERSION}-slim as base
+FROM oven/bun:1-slim AS base
 
 ENV WORKDIR=/app
 WORKDIR $WORKDIR
 
-RUN corepack enable
-RUN apt update && apt install openssl -y
+RUN apt-get update && apt-get install -y openssl && rm -rf /var/lib/apt/lists/*
 
-FROM base as builder
+FROM base AS builder
 
 COPY --link . .
 
-RUN pnpm install
-RUN pnpm build
+RUN bun install --frozen-lockfile
+RUN bun run build
 
 FROM base
 
-# Set production environment
 ENV NODE_ENV=production
 
 COPY --from=builder /app /app
 COPY --from=builder /app/apps/client/dist /app/apps/server/dist/public
 
 RUN rm -rf /app/apps/client
-RUN npm install pm2 -g
 
 EXPOSE 80
 EXPOSE 443
