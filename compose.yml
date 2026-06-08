@@ -1,5 +1,3 @@
-version: "3.3"
-
 services:
   traefik:
     image: traefik:v2.7
@@ -21,13 +19,9 @@ services:
   webauthn:
     container_name: webauthn-demo
     build:
-      context: "." # name of the folder where Dockerfile is located
+      context: "."
       dockerfile: Dockerfile
-    environment:
-      - PORT=80
-      - RP_ID=webauthn.localhost
-      - RP_NAME=webauthn.localhost
-      - DATABASE_URL=
+    env_file: .env
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.webauthn.tls=true"
