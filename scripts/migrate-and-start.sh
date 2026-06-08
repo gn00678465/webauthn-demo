@@ -1,9 +1,9 @@
 #!/bin/bash
 cd /app
 
-pnpm prisma:generate
-pnpm prisma:push
+bun run prisma:generate
+bun run prisma:push
 
 cd /app/apps/server/dist
 
-pm2-runtime index.mjs
+bun index.mjs

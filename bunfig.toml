@@ -1,0 +1,4 @@
+[install]
+# Refuse versions younger than 7 days — blocks most supply chain attacks.
+# Unit: SECONDS (604800 = 7 days).
+minimumReleaseAge = 604800
