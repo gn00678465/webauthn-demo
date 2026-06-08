@@ -124,7 +124,7 @@ export const handleAuthFinish = async (
         authenticationInfo.newCounter
       );
     } else {
-      next(new CustomError("Verification failed", 400));
+      return next(new CustomError("Verification failed", 400));
     }
 
     const user = await userService.getUserById(loggedInUserId);
