@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WebAuthn &amp; Passkeys：從基礎到實戰</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app">
+    <header class="course-header">
+      <div class="header-inner">
+        <div class="header-brand">
+          <span class="header-icon">&#x1f511;</span>
+          <div>
+            <h1 class="header-title">WebAuthn &amp; Passkeys</h1>
+            <p class="header-sub">從基礎到實戰的完整學習計畫</p>
+          </div>
+        </div>
+        <div class="header-progress">
+          <span id="progress-label">0 / 9 課程</span>
+          <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+        </div>
+      </div>
+    </header>
+
+    <div class="layout">
+      <nav class="sidebar" id="sidebar">
+        <div class="sidebar-heading">課程目錄</div>
+        <ul id="lesson-list" class="lesson-list"></ul>
+        <div class="sidebar-meta">
+          <p>基於 13 個研究領域的 176 項發現</p>
+          <p>資料來源：W3C WebAuthn L3、CTAP 2.3、NIST SP 800-63-4</p>
+        </div>
+      </nav>
+
+      <main class="main" id="main-content">
+        <!-- 總覽 -->
+        <section id="overview-section" class="overview-section">
+          <div class="overview-card">
+            <h2>課程總覽</h2>
+            <p>一套完整的 8 堂課程，涵蓋 WebAuthn / FIDO2 / Passkeys 的所有生態系。基於 13 個研究領域的 176 項研究發現，使用最新規格資料編寫而成。</p>
+            <div class="overview-stats">
+              <div class="stat"><span class="stat-num">8</span><span class="stat-label">堂課</span></div>
+              <div class="stat"><span class="stat-num">150</span><span class="stat-label">預估時數</span></div>
+              <div class="stat"><span class="stat-num">162</span><span class="stat-label">核心概念</span></div>
+              <div class="stat"><span class="stat-num">24</span><span class="stat-label">學習卡片</span></div>
+            </div>
+            <button class="btn-primary" id="btn-start">開始學習</button>
+          </div>
+          <div class="overview-toc">
+            <h3>你將學到什麼</h3>
+            <ol id="toc-list" class="toc-list"></ol>
+          </div>
+          <div class="overview-sources">
+            <h3>主要參考資料</h3>
+            <div class="source-cards" id="overview-sources"></div>
+          </div>
+        </section>
+
+        <!-- 課程內容 -->
+        <section id="lesson-section" class="lesson-section" style="display:none;">
+          <div class="lesson-topbar">
+            <button class="btn-back" id="btn-back-overview">&larr; 回到總覽</button>
+            <span class="lesson-tag" id="lesson-difficulty"></span>
+          </div>
+          <article class="lesson-article">
+            <div class="lesson-number" id="lesson-number"></div>
+            <h2 class="lesson-title" id="lesson-title"></h2>
+            <div class="objectives-block" id="objectives-block">
+              <h4>學習目標</h4>
+              <ul id="objectives-list"></ul>
+            </div>
+            <div class="lesson-body" id="lesson-body"></div>
+
+            <div class="flashcard-section">
+              <h3>學習卡片</h3>
+              <div class="flashcard-deck" id="flashcard-deck"></div>
+            </div>
+
+            <div class="quiz-section">
+              <h3>隨堂測驗</h3>
+              <div id="quiz-container"></div>
+            </div>
+
+            <div class="source-section">
+              <h3>參考資料與來源</h3>
+              <div class="source-cards" id="lesson-sources"></div>
+            </div>
+
+            <div class="lesson-nav">
+              <button class="btn-secondary" id="btn-prev" disabled>&larr; 上一課</button>
+              <button class="btn-complete" id="btn-complete">完成並繼續 &rarr;</button>
+              <button class="btn-secondary" id="btn-next">下一課 &rarr;</button>
+            </div>
+          </article>
+        </section>
+
+        <!-- 總複習 -->
+        <section id="review-section" class="review-section" style="display:none;">
+          <h2>總複習測驗</h2>
+          <p class="review-intro">綜合 8 堂課程的所有知識，測試你對整個 WebAuthn / Passkeys 生態系的理解程度。</p>
+          <div id="review-quiz"></div>
+          <div class="review-score" id="review-score" style="display:none;"></div>
+          <button class="btn-primary" id="btn-check-review" style="display:none;">檢查所有答案</button>
+          <button class="btn-back" id="btn-back-from-review" style="margin-top:1.5rem;">&larr; 回到總覽</button>
+        </section>
+      </main>
+    </div>
+  </div>
+  <!-- 課程資料（每章獨立檔案，方便增修） -->
+  <script src="lessons/lesson-1.js"></script>
+  <script src="lessons/lesson-2.js"></script>
+  <script src="lessons/lesson-3.js"></script>
+  <script src="lessons/lesson-4.js"></script>
+  <script src="lessons/lesson-5.js"></script>
+  <script src="lessons/lesson-6.js"></script>
+  <script src="lessons/lesson-7.js"></script>
+  <script src="lessons/lesson-8.js"></script>
+  <script src="lessons/appendix-a.js"></script>
+  <script src="lessons/review.js"></script>
+  <!-- 應用邏輯 -->
+  <script src="script.js"></script>
+</body>
+</html>
