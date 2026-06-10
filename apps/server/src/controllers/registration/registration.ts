@@ -10,7 +10,7 @@ import type {
 import type { TypedRequestBody } from "../../types";
 import { CustomError } from "../../middleware";
 import { userService, credentialService } from "../../service";
-import { Base64Url } from "../../utils";
+import { Base64Url, getExpectedOrigins } from "../../utils";
 
 type PostRegistrationReqBody = TypedRequestBody<{
   username: string;
@@ -110,7 +110,7 @@ export const handleRegisterFinish = async (
     const verification = await verifyRegistrationResponse({
       response: data,
       expectedChallenge: currentChallenge,
-      expectedOrigin: String(req.headers.origin),
+      expectedOrigin: getExpectedOrigins(),
       expectedRPID: process.env.RP_ID,
       requireUserVerification: true
     });
