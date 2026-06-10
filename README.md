@@ -104,6 +104,7 @@ sequenceDiagram
 | `RP_NAME` | 必須符合當前部署的網域 | Yes |
 | `SESSION_SECRET` | Session 加密金鑰 | Yes |
 | `DATABASE_URL` | MongoDB 連線字串 (`mongodb+srv://USER:PASS@HOST/DB`) | Yes |
+| `ALLOWED_ORIGINS` | WebAuthn 驗證的 origin allow-list（逗號分隔），比對 `clientDataJSON.origin`；Android 格式為 `android:apk-key-hash:<hash>`，未設定時使用程式內建預設值 | No |
 | `ANDROID_PACKAGE_NAME` | Android App package name | No |
 | `ANDROID_SHA256_FINGERPRINTS` | Android 簽章 SHA256 指紋（逗號分隔） | No |
 | `APPLE_APP_IDS` | iOS App ID，格式 `TEAMID.BUNDLEID`（逗號分隔） | No |
@@ -112,6 +113,10 @@ sequenceDiagram
 | `PASSKEY_MANAGE_URL` | Passkey 管理頁面 URL | No |
 
 > `.well-known` 相關環境變數皆為選填，未設定時對應端點回傳 404。
+
+> Client 路由與 `/.well-known/passkey-endpoints` 廣告的網址對齊：
+> enroll → `/passkeys/create`（建立 Passkey）、manage → `/passkeys`（管理 Passkey），
+> 兩者皆可直接以 URL 開啟（server 已提供 SPA fallback）。
 
 ```bash
 bun install
