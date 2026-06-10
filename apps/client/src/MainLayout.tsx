@@ -13,7 +13,7 @@ export default function MainLayout({ children }: Props) {
       <div className="size-full vault-bg">
         <Container
           className="absolute position-center overflow-y-auto"
-          sx={{ textAlign: "center", py: { xs: 4, sm: 0 }, position: "relative", zIndex: 1 }}
+          sx={{ textAlign: "center", py: { xs: 4, sm: 0 }, zIndex: 1 }}
         >
           <Stack
             className="vault-rise"
