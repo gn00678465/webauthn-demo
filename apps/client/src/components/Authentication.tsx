@@ -56,12 +56,12 @@ const Authentication = ({
         variant="h6"
         sx={{ fontWeight: 400, fontSize: { xs: "1rem", sm: "1.25rem" } }}
       >
-        No account yet?{" "}
+        No passkey yet?{" "}
         <Link
-          to="/register"
-          color="blue"
+          to="/passkeys/create"
+          style={{ color: "#4DE6B4" }}
         >
-          Sign up
+          Create a passkey
         </Link>
       </Typography>
 
@@ -110,7 +110,7 @@ const Authentication = ({
         ) : (
           <Typography
             variant="h4"
-            color="red"
+            color="error"
             sx={{ mt: 3 }}
           >
             瀏覽器不支援 WebAuthn

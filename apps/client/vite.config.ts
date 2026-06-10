@@ -14,9 +14,13 @@ export default defineConfig({
     },
     proxy: {
       "/api": {
-        target: "http://webauthn.localhost:3310",
+        target: "http://127.0.0.1:3310",
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, "")
+      },
+      "/.well-known": {
+        target: "http://127.0.0.1:3310",
+        changeOrigin: true
       }
     }
   }

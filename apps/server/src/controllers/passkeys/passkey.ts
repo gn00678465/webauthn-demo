@@ -9,7 +9,7 @@ import type { AuthenticationResponseJSON } from "@webauthn/types";
 import type { TypedRequestBody } from "../../types";
 import { CustomError } from "../../middleware";
 import { credentialService } from "../../service";
-import { Base64Url } from "../../utils";
+import { Base64Url, getExpectedOrigins } from "../../utils";
 
 type PostPassKeysReqBody = TypedRequestBody<{
   params: {
@@ -80,7 +80,7 @@ export const handlePasskeysFinish = async (
     const verification = await verifyAuthenticationResponse({
       response: data,
       expectedChallenge: currentChallenge,
-      expectedOrigin: String(req.headers.origin),
+      expectedOrigin: getExpectedOrigins(),
       expectedRPID: process.env.RP_ID,
       authenticator: {
         credentialID: new Uint8Array(Base64Url.decodeBase64Url(authenticator.credential_id)),
