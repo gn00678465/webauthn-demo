@@ -1,4 +1,5 @@
 import express, { Request, Response, NextFunction } from "express";
+import path from "node:path";
 import cors from "cors";
 import createHttpError from "http-errors";
 import cookieParser from "cookie-parser";
@@ -52,6 +53,15 @@ app.use("/api/v1/webauthn", registrationRouter, authenticationRouter, passkeysRo
 app.use("/api/v1/credentials", credentialRouter);
 
 app.use(express.static("./public"));
+
+// SPA fallback：/.well-known/passkey-endpoints 廣告的 /passkeys、/passkeys/create
+// 等 client 路由必須能以 URL 直接開啟，未命中靜態檔的 GET 一律回傳 index.html
+app.get("*", (req: Request, res: Response, next: NextFunction) => {
+  if (req.path.startsWith("/api/") || req.path.startsWith("/.well-known/")) {
+    return next();
+  }
+  res.sendFile(path.resolve("./public/index.html"), (err) => err && next());
+});
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

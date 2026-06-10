@@ -5,6 +5,7 @@ import {
   Card,
   CardContent,
   Box,
+  Stack,
   IconButton,
   CircularProgress
 } from "@mui/material";
@@ -17,8 +18,13 @@ import { authLogout } from "./service/auth";
 import { getCredentials, deleteCredential, type CredentialInfo } from "./service/credentials";
 import { Passkeys, Trash } from "./utils";
 import { useBoolean } from "./hooks";
+import { PasskeyEndpointsCard } from "./components";
+import { fonts } from "./theme";
 
-export function HomePage() {
+/**
+ * Passkey 管理頁 — /.well-known/passkey-endpoints 的 manage 端點（/passkeys）。
+ */
+export function PasskeysManagePage() {
   const navigate = useNavigate();
   const [credentials, setCredentials] = useState<CredentialInfo[]>([]);
   const { bool: loading, setTrue: loadingStart, setFalse: loadingStop } = useBoolean(false);
@@ -53,6 +59,8 @@ export function HomePage() {
         }
       } catch (error) {
         console.error(error);
+        // 未登入時導回登入頁
+        navigate("/");
       } finally {
         loadingStop();
       }
@@ -63,22 +71,50 @@ export function HomePage() {
   return (
     <Box
       maxWidth={650}
-      sx={{ display: "inline-block", bgColor: "#fff", width: "100%" }}
+      sx={{ display: "inline-block", width: "100%" }}
     >
-      <Card>
+      <Card
+        className="vault-rise vault-rise-2"
+        variant="outlined"
+        sx={{ borderRadius: 3 }}
+      >
         <CardContent>
-          <Typography variant="h5">You're logged in.</Typography>
-          <Button
-            variant="contained"
-            sx={{ my: 3 }}
-            onClick={async () => {
-              await authLogout();
-              navigate("/");
-            }}
+          <Typography
+            variant="h4"
+            mb={1}
+            sx={{ fontWeight: 500, fontSize: { xs: "1.875rem", sm: "2.125rem" } }}
           >
-            Logout
-          </Button>
-          <Typography>These are your passkeys:</Typography>
+            Manage your passkeys
+          </Typography>
+          <Typography
+            variant="body2"
+            color="text.secondary"
+          >
+            此頁面即 /.well-known/passkey-endpoints 廣告的 manage 端點
+          </Typography>
+          <Stack
+            direction="row"
+            spacing={2}
+            justifyContent="center"
+            sx={{ my: 3 }}
+          >
+            <Button
+              variant="contained"
+              onClick={() => navigate("/passkeys/create")}
+            >
+              建立新的 Passkey
+            </Button>
+            <Button
+              variant="outlined"
+              onClick={async () => {
+                await authLogout();
+                navigate("/");
+              }}
+            >
+              Logout
+            </Button>
+          </Stack>
+          <Typography align="left">These are your passkeys:</Typography>
           {loading ? (
             <Box
               sx={{
@@ -92,6 +128,14 @@ export function HomePage() {
             </Box>
           ) : (
             <List className="space-y-3">
+              {credentials.length === 0 && (
+                <Typography
+                  color="text.secondary"
+                  sx={{ py: 3 }}
+                >
+                  尚未建立任何 Passkey
+                </Typography>
+              )}
               {credentials.map((credential) => {
                 return (
                   <ListItem
@@ -112,7 +156,7 @@ export function HomePage() {
                         <Trash />
                       </IconButton>
                     }
-                    sx={{ border: "solid 1px #000", borderRadius: "0.5rem" }}
+                    sx={{ textAlign: "left" }}
                   >
                     <ListItemIcon>
                       <Passkeys
@@ -120,18 +164,25 @@ export function HomePage() {
                         height={36}
                       />
                     </ListItemIcon>
-                    <ListItemText
-                      disableTypography
-                      className="text-semibold"
-                    >
+                    <ListItemText disableTypography>
                       <Typography fontWeight="bold">Passkey</Typography>
-                      <Typography className="break-all">
-                        Credential ID: {credential.credential_id}
+                      <Typography
+                        className="break-all"
+                        variant="body2"
+                        sx={{ fontFamily: fonts.mono, color: "secondary.main" }}
+                      >
+                        {credential.credential_id}
                       </Typography>
-                      <Typography className="break-all">
+                      <Typography
+                        variant="body2"
+                        color="text.secondary"
+                      >
                         Created: {credential.created_at}
                       </Typography>
-                      <Typography className="break-all">
+                      <Typography
+                        variant="body2"
+                        color="text.secondary"
+                      >
                         Last used: {credential.updated_at}
                       </Typography>
                     </ListItemText>
@@ -142,8 +193,9 @@ export function HomePage() {
           )}
         </CardContent>
       </Card>
+      <PasskeyEndpointsCard />
     </Box>
   );
 }
 
-export default HomePage;
+export default PasskeysManagePage;

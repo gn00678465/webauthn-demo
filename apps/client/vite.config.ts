@@ -17,6 +17,10 @@ export default defineConfig({
         target: "http://webauthn.localhost:3310",
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, "")
+      },
+      "/.well-known": {
+        target: "http://webauthn.localhost:3310",
+        changeOrigin: true
       }
     }
   }

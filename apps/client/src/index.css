@@ -12,3 +12,99 @@ html {
 #root {
   height: 100%;
 }
+
+/* ===== Cryptographic Vault 氛圍背景 ===== */
+.vault-bg {
+  position: relative;
+  background-color: #070d17;
+  background-image:
+    radial-gradient(ellipse 60% 45% at 18% -8%, rgba(77, 230, 180, 0.13), transparent 60%),
+    radial-gradient(ellipse 55% 40% at 88% 12%, rgba(127, 180, 255, 0.1), transparent 60%),
+    radial-gradient(ellipse 70% 55% at 50% 115%, rgba(77, 110, 230, 0.12), transparent 65%);
+}
+
+/* 細格線:精密儀器的座標感 */
+.vault-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(127, 180, 255, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(127, 180, 255, 0.045) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: radial-gradient(ellipse 90% 80% at 50% 30%, #000 35%, transparent 80%);
+  -webkit-mask-image: radial-gradient(ellipse 90% 80% at 50% 30%, #000 35%, transparent 80%);
+}
+
+/* 噪點顆粒,消除純色的塑膠感 */
+.vault-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+::selection {
+  background: rgba(77, 230, 180, 0.35);
+  color: #e6eef8;
+}
+
+/* ===== 進場動畫:錯落浮現 ===== */
+@keyframes vault-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.vault-rise {
+  animation: vault-rise 520ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.vault-rise-1 {
+  animation-delay: 60ms;
+}
+.vault-rise-2 {
+  animation-delay: 160ms;
+}
+.vault-rise-3 {
+  animation-delay: 280ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vault-rise,
+  .vault-rise-1,
+  .vault-rise-2,
+  .vault-rise-3 {
+    animation: none;
+  }
+}
+
+/* 安全金鑰 LED 呼吸燈 */
+@keyframes vault-led {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(77, 230, 180, 0.55);
+    opacity: 1;
+  }
+  50% {
+    box-shadow: 0 0 0 5px rgba(77, 230, 180, 0);
+    opacity: 0.75;
+  }
+}
+
+.vault-led {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #4de6b4;
+  animation: vault-led 2.2s ease-in-out infinite;
+}

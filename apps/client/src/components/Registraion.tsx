@@ -53,7 +53,7 @@ export const Registration = ({ isAvailable, children, onRegistration }: Registra
         You already have an account?{" "}
         <Link
           to="/"
-          color="blue"
+          style={{ color: "#4DE6B4" }}
         >
           Log in
         </Link>
@@ -87,13 +87,13 @@ export const Registration = ({ isAvailable, children, onRegistration }: Registra
               fullWidth
               type="submit"
             >
-              Register
+              Create passkey
             </Button>
           </Stack>
         ) : (
           <Typography
             variant="h4"
-            color="red"
+            color="error"
             sx={{ mt: 3 }}
           >
             瀏覽器不支援 WebAuthn
