@@ -69,7 +69,7 @@ export const handleAuthStart = async (
       data: options
     });
   } catch (error) {
-    next(error instanceof CustomError ? error : new CustomError("Internal Server Error", 500));
+    next(error);
   }
 };
 
@@ -102,19 +102,28 @@ export const handleAuthFinish = async (
       return next(new CustomError("User is not registered this device", 403));
     }
 
-    const verification = await verifyAuthenticationResponse({
-      response: data,
-      expectedChallenge: currentChallenge,
-      expectedOrigin: getExpectedOrigins(),
-      expectedRPID: process.env.RP_ID,
-      authenticator: {
-        credentialID: new Uint8Array(Base64Url.decodeBase64Url(authenticator.credential_id)),
-        credentialPublicKey: new Uint8Array(Base64Url.decodeBase64Url(authenticator.public_key)),
-        counter: authenticator.counter,
-        transports: JSON.parse(authenticator.transports)
-      },
-      requireUserVerification: true
-    });
+    // SimpleWebAuthn 以 throw 表達驗證失敗，訊息精確（如 origin / RP ID 不符），
+    // 屬 client 端問題回 400，不可吞成 generic 500
+    let verification;
+    try {
+      verification = await verifyAuthenticationResponse({
+        response: data,
+        expectedChallenge: currentChallenge,
+        expectedOrigin: getExpectedOrigins(),
+        expectedRPID: process.env.RP_ID,
+        authenticator: {
+          credentialID: new Uint8Array(Base64Url.decodeBase64Url(authenticator.credential_id)),
+          credentialPublicKey: new Uint8Array(Base64Url.decodeBase64Url(authenticator.public_key)),
+          counter: authenticator.counter,
+          transports: JSON.parse(authenticator.transports)
+        },
+        requireUserVerification: true
+      });
+    } catch (error) {
+      const err = error as Error;
+      console.error("[authentication:finish]", `userId=${loggedInUserId}`, err.stack);
+      return res.status(400).json({ status: "Failed", message: err.message });
+    }
 
     const { verified, authenticationInfo } = verification;
 
@@ -137,7 +146,7 @@ export const handleAuthFinish = async (
       }
     });
   } catch (error) {
-    next(error instanceof CustomError ? error : new CustomError("Internal Server Error", 500));
+    next(error);
   } finally {
     req.session.currentChallenge = undefined;
   }
