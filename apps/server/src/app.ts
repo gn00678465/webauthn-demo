@@ -15,8 +15,16 @@ import authRouter from "./routes/auth";
 import credentialRouter from "./routes/credential";
 import wellknownRouter from "./routes/wellknown";
 import { handleError } from "./middleware";
+import { getExpectedOrigins } from "./utils";
 
 dotenv.config();
+
+// 設定錯誤 fail-fast：allow-list 解析後為空時直接讓服務起不來，
+// 不要等第一個請求才以難以追蹤的 500 暴露
+if (getExpectedOrigins().length === 0) {
+  throw new Error("ALLOWED_ORIGINS 解析後為空，請檢查環境變數設定（逗號分隔的 origin 清單）");
+}
+
 const app = express();
 
 const MemoryStore = memorystore(session);
